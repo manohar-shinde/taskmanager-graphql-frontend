@@ -22,21 +22,3 @@ export const LOGIN = gql`
     }
   }
 `;
-
-export const CREATE_TASK = gql`
-  mutation CreateTask($createTaskPayload: CreateTaskInput!) {
-    createTask(input: $createTaskPayload) {
-      id
-    }
-  }
-`;
-
-export const UPDATE_TASK = gql`
-  mutation UpdateTask($id: ID!, $updateTaskInput: UpdateTaskInput!) {
-    updateTask(id: $id, input: $updateTaskInput) {
-      id
-      title
-      completed
-    }
-  }
-`;

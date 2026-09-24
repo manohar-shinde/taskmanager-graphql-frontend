@@ -1,9 +1,9 @@
 import { useMutation } from "@apollo/client/react";
 import { useState } from "react";
-import { CREATE_TASK } from "../graphql/mutations";
-import { GET_TASKS } from "../graphql/queries";
+import { CREATE_TASK } from "../graphql/task/mutations";
+import { GET_TASKS } from "../graphql/task/queries";
 
-export default function AddTask({ taskId }) {
+export default function AddTask() {
   const [title, setTitle] = useState("");
   const [createTask, { loading, error }] = useMutation(CREATE_TASK, {
     refetchQueries: [GET_TASKS],
@@ -11,7 +11,6 @@ export default function AddTask({ taskId }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(title);
       await createTask({
         variables: {
           createTaskPayload: {

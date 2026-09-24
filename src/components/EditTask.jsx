@@ -1,17 +1,16 @@
 import { useMutation } from "@apollo/client/react";
 import { useState } from "react";
-import { UPDATE_TASK } from "../graphql/mutations";
-import { GET_TASKS } from "../graphql/queries";
+import { UPDATE_TASK } from "../graphql/task/mutations";
+import useToggleTask from "../hooks/useToggleTask";
 
 export default function EditTask({ task, onEdit }) {
   console.log(task.id);
   const [title, setTitle] = useState(task.title);
-  const [completed, setCompleted] = useState(task.completed);
-  const [updateTask, { loading, error }] = useMutation(UPDATE_TASK, {
-    refetchQueries: [GET_TASKS],
-  });
-  const handleStatus = (e) => {
-    setCompleted(e.target.value);
+  const [updateTask, { loading, error }] = useMutation(UPDATE_TASK);
+  const { toggleTask, result } = useToggleTask();
+  const handleStatus = async (e) => {
+    await toggleTask(task);
+    console.log(result);
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +20,6 @@ export default function EditTask({ task, onEdit }) {
           id: task.id.toString(),
           updateTaskInput: {
             title,
-            completed: completed === "true",
           },
         },
       });
@@ -41,21 +39,12 @@ export default function EditTask({ task, onEdit }) {
       />
       <label>
         <input
-          type="radio"
-          value={true}
+          type="checkbox"
+          role="switch"
           onChange={handleStatus}
           name="status"
         />
         Completed
-      </label>
-      <label>
-        <input
-          type="radio"
-          value={false}
-          onChange={handleStatus}
-          name="status"
-        />
-        Pending
       </label>
 
       <button type="submit" disabled={loading}>

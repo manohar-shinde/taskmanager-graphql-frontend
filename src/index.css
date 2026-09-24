@@ -125,3 +125,8 @@ code {
   border-radius: 4px;
   border: 1px solid gray;
 }
+.pagination {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+}

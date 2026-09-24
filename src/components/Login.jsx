@@ -1,25 +1,28 @@
 import { useMutation } from "@apollo/client/react";
 import { useState } from "react";
-import { LOGIN } from "../graphql/mutations";
+import { LOGIN } from "../graphql/user/mutations";
 import { setToken } from "../auth/token";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [login, { loading, error }] = useMutation(LOGIN);
+  const [loginMutation, { loading, error }] = useMutation(LOGIN);
+  const { login } = useAuth();
   const navigate = useNavigate();
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       console.log(email, password);
-      const result = await login({
+      const result = await loginMutation({
         variables: {
           email,
           password,
         },
       });
-      setToken(result.data.login.token);
+      login(result.data.login.token);
       navigate("/tasks");
     } catch (e) {
       console.log("Error", e);

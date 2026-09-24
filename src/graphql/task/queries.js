@@ -1,36 +1,18 @@
 import { gql } from "@apollo/client";
-
-export const GET_USERS = gql`
-  query GetUser {
-    users {
-      id
-      name
-    }
-  }
-`;
-
-export const GET_ME = gql`
-  query GetMe {
-    me {
-      id
-      name
-      email
-    }
-  }
-`;
+import { TASK_FIELDS } from "./fragments";
 
 export const GET_TASKS = gql`
   query GetTasks($page: Int!, $limit: Int!, $completed: Boolean) {
     tasks(page: $page, limit: $limit, completed: $completed) {
       total
       tasks {
-        id
-        title
-        completed
+        ...TaskFields
         user {
           name
         }
       }
     }
   }
+
+  ${TASK_FIELDS}
 `;

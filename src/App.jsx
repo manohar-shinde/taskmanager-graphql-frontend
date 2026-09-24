@@ -3,7 +3,6 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import Login from "./components/Login";
 import ProtectedRoute from "./components/ProtectedRout";
 import Tasks from "./components/Tasks";
-import Header from "./components/Layout";
 import Layout from "./components/Layout";
 
 function App() {
